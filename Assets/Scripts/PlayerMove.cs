@@ -1,16 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 
 public class PlayerMove : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// ----- Public
+	public Spline rail;
+	public float moveSpeed = 5f;
+	
+	public void OnMove(InputAction.CallbackContext context)
+	{
+		
+	}
 }
