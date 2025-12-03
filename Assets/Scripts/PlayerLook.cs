@@ -8,17 +8,22 @@ public class PlayerLook : MonoBehaviour
 	public float maxAngle = 80;
 	public float minAngle = -90;
 	
+	// ----- Private
+	// References
+	
+	// Varyings
+	private Vector2 lookAngle;
+	
 	public void OnLook(InputAction.CallbackContext context)
 	{
 		Vector2 mouseMove = context.ReadValue<Vector2>() * sensitivity / 100;
+
+		lookAngle += mouseMove;
+		lookAngle.y = Mathf.Clamp(lookAngle.y, minAngle, maxAngle);
 		
-		
-		transform.Rotate(Vector3.up, mouseMove.x);
-		transform.Rotate(transform.right, -mouseMove.y);
-		
-		
-		print("Axis: " + transform.forward);
-		print("Quat: " + transform.rotation);
-		print("Rota: " + transform.eulerAngles);
+		// Apply rotation
+		transform.rotation = Quaternion.identity;
+		transform.Rotate(Vector3.up, lookAngle.x);
+		transform.Rotate(Vector3.right, -lookAngle.y);
 	}
 }
