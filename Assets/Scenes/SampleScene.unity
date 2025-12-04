@@ -187,21 +187,41 @@ MonoBehaviour:
         y: 0
         z: 10
       TangentIn:
-        x: -0
-        y: -0
-        z: -1
+        x: 0
+        y: 0
+        z: 0
       TangentOut:
         x: 0
         y: 0
-        z: 1
+        z: 0
       Rotation:
         value:
           x: 0
-          y: 0
+          y: 0.18218067
           z: 0
-          w: 1
+          w: 0.9832651
+    - Position:
+        x: 3
+        y: 0
+        z: 15
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.5830952
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.5830952
+      Rotation:
+        value:
+          x: 0
+          y: 0.2669336
+          z: 0
+          w: 0.96371484
     m_MetaData:
     - Mode: 0
+      Tension: 0.5
+    - Mode: 1
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
@@ -733,9 +753,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1880975997
 MonoBehaviour:
@@ -750,7 +770,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rail: {fileID: 191017712}
-  moveSpeed: 0.001
+  accelerationTime: 1
+  maxSpeed: 0.01
 --- !u!1 &2058124593
 GameObject:
   m_ObjectHideFlags: 0

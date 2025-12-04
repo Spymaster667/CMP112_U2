@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Mathematics;
 using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
@@ -12,11 +13,11 @@ public class PlayerLook : MonoBehaviour
 	// References
 	
 	// Varyings
-	private Vector2 lookAngle;
+	private float2 lookAngle;
 	
 	public void OnLook(InputAction.CallbackContext context)
 	{
-		Vector2 mouseMove = context.ReadValue<Vector2>() * sensitivity / 100;
+		float2 mouseMove = context.ReadValue<Vector2>() * sensitivity / 100;
 
 		lookAngle += mouseMove;
 		lookAngle.y = Mathf.Clamp(lookAngle.y, minAngle, maxAngle);
