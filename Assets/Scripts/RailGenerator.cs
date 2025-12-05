@@ -33,7 +33,7 @@ public class RailGenerator : MonoBehaviour
 			RailSection currentSection = Instantiate(selectedSection, endPosition, Quaternion.LookRotation(endDirection)).GetComponent<RailSection>();
 			
 			// offset section
-			//currentSection.GetPathStart(out float3 startPosition, out float3 startDirection);
+			currentSection.GetPathStart(out float3 startPosition, out float3 startDirection);
 			
 			
 			

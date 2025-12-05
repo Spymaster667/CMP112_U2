@@ -26,10 +26,9 @@ public class RailSection : MonoBehaviour
 		Gizmos.DrawLine(knotPos, knotPos + path.Spline.EvaluateTangent(.999f));
 	}
 	
-	void Start()
+	void Awake()
 	{
 		path = GetComponent<SplineContainer>();
-		print("Start:" + path);
 	}
 
 	public void GetPathEnd(out float3 endPosition, out float3 endDirection)
@@ -41,7 +40,9 @@ public class RailSection : MonoBehaviour
 
 	public void GetPathStart(out float3 startPosition, out float3 startDirection)
 	{
-		startPosition = new float3(transform.position) - path.Spline[0].Position;
+		startPosition = new float3(transform.position);
+		
 		startDirection = path.Spline[0].TangentIn;
+		//path.Spline[0].Position;
 	}
 }
