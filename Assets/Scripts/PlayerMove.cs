@@ -31,8 +31,6 @@ public class PlayerMove : MonoBehaviour
 
 	private float3 railPosition = float3.zero;
 
-	private bool playAccelerating = true;
-
 	private void Start()
 	{
 		AttachToRail(rail);
