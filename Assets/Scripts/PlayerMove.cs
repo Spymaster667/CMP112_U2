@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.InputSystem;
@@ -49,7 +48,6 @@ public class PlayerMove : MonoBehaviour
 		if (math.abs(moveInput.x) > Mathf.Epsilon || math.abs(moveInput.y) > Mathf.Epsilon)
 		{
 			velocity = Mathf.MoveTowards(velocity, maxSpeed * moveInput.y, accelDelta);
-			PlayCarriageStart();
 		}
 		else
 		{
@@ -77,49 +75,5 @@ public class PlayerMove : MonoBehaviour
 	{
 		rail = container;
 		railPosition = container.transform.position;
-	}
-
-	private void PlayCarriageStart()
-	{
-		// reset volume and clip on low volume
-		if (sources[0].volume < 1 - float.Epsilon)
-		{
-			sources[0].Stop();
-			sources[0].volume = 1;
-			playAccelerating = true;
-		}
-		
-		// don't change if playing
-		if (sources[0].isPlaying)
-		{
-			return;
-		}
-
-		// play accelerating or drone
-		if (playAccelerating)
-		{
-			sources[0].PlayOneShot(carriageAccel);
-			playAccelerating = false;
-		}
-		else
-		{
-			sources[0].loop = true;
-			sources[0].clip = carriageDrone;
-			sources[0].Play();
-		}
-
-		return;
-	}
-
-	private void PlayCarriageStop()
-	{
-		sources[0].volume = Mathf.MoveTowards(sources[0].volume, 0, droneToDecelFade * Time.deltaTime);
-
-		if (sources[1].isPlaying)
-		{
-			return;
-		}
-		
-		sources[1].PlayOneShot(carriageDecel);
 	}
 }
