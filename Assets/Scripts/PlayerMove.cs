@@ -30,8 +30,8 @@ public class PlayerMove : MonoBehaviour
 	private float velocity = 0;
 
 	private float3 railPosition = float3.zero;
-
-	private void Start()
+	
+	void Start()
 	{
 		AttachToRail(rail);
 		rb = GetComponent<Rigidbody>();
@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
 		sources = GetComponents<AudioSource>();
 	}
 	
-	private void Update()
+	void Update()
 	{
 		// Calculate velocity
 		float accelDelta = maxSpeed * Time.deltaTime * accelerationTime;
@@ -60,8 +60,7 @@ public class PlayerMove : MonoBehaviour
 		nearestPos += railPosition;
 		
 		// Apply movement
-		rb.MovePosition(nearestPos);
-		rb.MovePosition(new float3(rb.position) + railDirection * velocity);
+		rb.MovePosition(nearestPos + railDirection * velocity);
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
