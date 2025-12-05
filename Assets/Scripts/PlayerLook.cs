@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerLook : MonoBehaviour
 {
 	// ----- Public
-	public Vector2 sensitivity = Vector2.one * 10;
+	public float2 sensitivity = new float2(10);
 	public float maxAngle = 80;
 	public float minAngle = -90;
 	
@@ -17,7 +17,7 @@ public class PlayerLook : MonoBehaviour
 	
 	public void OnLook(InputAction.CallbackContext context)
 	{
-		float2 mouseMove = context.ReadValue<Vector2>() * sensitivity / 100;
+		float2 mouseMove = new float2(context.ReadValue<Vector2>()) * sensitivity / 100;
 
 		lookAngle += mouseMove;
 		lookAngle.y = Mathf.Clamp(lookAngle.y, minAngle, maxAngle);
