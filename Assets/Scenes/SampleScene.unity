@@ -672,8 +672,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sections:
-  - {fileID: 8495206422125040778, guid: ce4d529fae7009d479e9134e92e506a0, type: 3}
+  - {fileID: 2068101238527428243, guid: ce4d529fae7009d479e9134e92e506a0, type: 3}
   player: {fileID: 1880975991}
+  maxSections: 10
+  maxDistance: 100
 --- !u!4 &1821995603
 Transform:
   m_ObjectHideFlags: 0

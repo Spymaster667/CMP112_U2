@@ -29,18 +29,19 @@ public class RailSection : MonoBehaviour
 	void Start()
 	{
 		path = GetComponent<SplineContainer>();
+		print("Start:" + path);
 	}
 
 	public void GetPathEnd(out float3 endPosition, out float3 endDirection)
 	{
 		endPosition = path.Spline[^1].Position;
 		endDirection = path.Spline[^1].TangentOut;
-		print(endDirection);
+		//print(endDirection);
 	}
 
 	public void GetPathStart(out float3 startPosition, out float3 startDirection)
 	{
-		startPosition = path.Spline[0].Position;
+		startPosition = new float3(transform.position) - path.Spline[0].Position;
 		startDirection = path.Spline[0].TangentIn;
 	}
 }
