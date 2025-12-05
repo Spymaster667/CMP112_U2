@@ -31,12 +31,15 @@ public class PlayerMove : MonoBehaviour
 
 	private float3 railPosition = float3.zero;
 	
+	void Awake()
+	{
+		rb = GetComponent<Rigidbody>();
+		sources = GetComponents<AudioSource>();
+	}
+
 	void Start()
 	{
 		AttachToRail(rail);
-		rb = GetComponent<Rigidbody>();
-		
-		sources = GetComponents<AudioSource>();
 	}
 	
 	void Update()
