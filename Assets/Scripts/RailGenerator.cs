@@ -30,16 +30,15 @@ public class RailGenerator : MonoBehaviour
 			GameObject selectedSection = sections[0];
 			
 			// instance section
-			RailSection currentSection = Instantiate(selectedSection, endPosition, Quaternion.LookRotation(endDirection)).GetComponent<RailSection>();
+			RailSection currentSection = Instantiate(selectedSection, float3.zero, Quaternion.LookRotation(endDirection)).GetComponent<RailSection>();
 			
 			// offset section
 			currentSection.GetPathStart(out float3 startPosition, out float3 startDirection);
 			
+			currentSection.transform.position = endPosition - startPosition;
 			
-			
-			
-			//currentSection.GetPathEnd(out endPosition, out endDirection);
-			print("Count " + sectionCount);
+			// update end of the path
+			currentSection.GetPathEnd(out endPosition, out endDirection);
 		}
 	}
 

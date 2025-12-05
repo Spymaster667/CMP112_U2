@@ -13,6 +13,7 @@ public class RailSection : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
+		path = GetComponent<SplineContainer>();
 		// Start
 		float3 knotPos = path.Spline[0].Position + new float3(transform.position);
 		Gizmos.color = Color.red;
@@ -35,14 +36,11 @@ public class RailSection : MonoBehaviour
 	{
 		endPosition = path.Spline[^1].Position;
 		endDirection = path.Spline[^1].TangentOut;
-		//print(endDirection);
 	}
 
 	public void GetPathStart(out float3 startPosition, out float3 startDirection)
 	{
-		startPosition = new float3(transform.position);
-		
-		startDirection = path.Spline[0].TangentIn;
-		//path.Spline[0].Position;
+		startPosition = path.Spline[0].Position;
+		startDirection = Vector3.Normalize(path.Spline[0].TangentOut);
 	}
 }
