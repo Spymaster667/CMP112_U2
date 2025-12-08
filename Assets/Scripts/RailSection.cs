@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;
-using UnityEditor.Splines;
 
 public class RailSection : MonoBehaviour
 {
@@ -14,17 +13,24 @@ public class RailSection : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		path = GetComponent<SplineContainer>();
+		
 		// Start
-		float3 knotPos = path.Spline[0].Position + new float3(transform.position);
+		float3 knotPos = transform.TransformPoint(path.Spline[0].Position);
 		Gizmos.color = Color.red;
 		Gizmos.DrawSphere(knotPos, 0.1f);
-		Gizmos.DrawLine(knotPos, knotPos - path.Spline.EvaluateTangent(0.001f));
+		Gizmos.DrawLine(
+			knotPos, 
+			knotPos - new float3(transform.rotation * path.Spline.EvaluateTangent(0f))
+		);
 		
 		// End
-		knotPos = path.Spline[1].Position + new float3(transform.position);
+		knotPos = transform.TransformPoint(path.Spline[1].Position);
 		Gizmos.color = Color.green;
 		Gizmos.DrawSphere(knotPos, 0.1f);
-		Gizmos.DrawLine(knotPos, knotPos + path.Spline.EvaluateTangent(.999f));
+		Gizmos.DrawLine(
+			knotPos, 
+			knotPos + new float3(transform.rotation * path.Spline.EvaluateTangent(1f))
+		);
 	}
 	
 	void Awake()
@@ -32,15 +38,16 @@ public class RailSection : MonoBehaviour
 		path = GetComponent<SplineContainer>();
 	}
 
-	public void GetPathEnd(out float3 endPosition, out float3 endDirection)
-	{
-		endPosition = path.Spline[^1].Position;
-		endDirection = path.Spline[^1].TangentOut;
-	}
-
-	public void GetPathStart(out float3 startPosition, out float3 startDirection)
+	// GetPath...
+	public void GetPathStart(out float3 startPosition, out Quaternion startRotation)
 	{
 		startPosition = path.Spline[0].Position;
-		startDirection = Vector3.Normalize(path.Spline[0].TangentOut);
+		startRotation = path.Spline[0].Rotation;
+	}
+
+	public void GetPathEnd(out float3 endPosition, out Quaternion endRotation)
+	{
+		endPosition = transform.TransformPoint(path.Spline[^1].Position);
+		endRotation = transform.rotation * path.Spline[^1].Rotation;
 	}
 }
