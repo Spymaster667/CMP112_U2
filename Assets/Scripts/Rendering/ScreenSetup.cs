@@ -49,6 +49,6 @@ public class ScreenSetup : MonoBehaviour
 			filterMode = FilterMode.Point
 		};
 		
-		rect.sizeDelta = screenMin * scaledRatio;
+		rect.sizeDelta = math.floor(screenMin * scaledRatio);
 	}
 }
