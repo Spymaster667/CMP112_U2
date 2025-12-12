@@ -26,5 +26,7 @@ public class PlayerLook : MonoBehaviour
 		transform.rotation = Quaternion.identity;
 		transform.Rotate(Vector3.up, lookAngle.x);
 		transform.Rotate(Vector3.right, -lookAngle.y);
+		
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 }
