@@ -17,11 +17,27 @@ Shader "UI/ScreenShader"
 
 		Pass
 		{
-			Name "OrderedDither"
-			HLSLPROGRAM
-			#pragma vertex vert
+			Name "Fog"
+		HLSLPROGRAM
+			#pragma vertex vert_img
 			#pragma fragment frag
+			#include "UnityCG.cginc"
+			
+			sampler2D _MainTex;
+			
+			half4 frag(v2f_img i)
+			{
+				return tex2D(_MainTex, i.uv);
+			}
+		ENDHLSL
+		}
 
+		Pass
+		{
+			Name "OrderedDither"
+		HLSLPROGRAM
+			#pragma vertex vert_img
+			#pragma fragment frag
 			#include <UnityCG.cginc>
 
 			struct appdata
@@ -30,46 +46,32 @@ Shader "UI/ScreenShader"
 				float2 uv : TEXCOORD0;
 			};
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
-
-			v2f vert(appdata v)
-			{
-				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.uv = v.uv;
-				return o;
-			}
-
 			// Uniforms
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
-			
+
 			sampler2D ditherPattern;
 			float4 ditherPattern_TexelSize;
-			
+
 			float ditherIntensity;
 			int colourDepth;
 
-			half4 frag(v2f i) : SV_Target
+			half4 frag(v2f_img i) : SV_Target
 			{
 				half3 col = tex2D(_MainTex, i.uv).rgb;
 
 				// Sample DitherPattern
 				float2 ditherUV = i.uv * (_MainTex_TexelSize.zw / ditherPattern_TexelSize.zw);
-				
+
 				float ditherValue = tex2D(ditherPattern, ditherUV).r;
 				ditherValue *= ditherIntensity / 10;
 
 				// Quantization
 				col = round((col + ditherValue) * colourDepth) / colourDepth;
-				
+
 				return half4(col, 1);
 			}
-			ENDHLSL
+		ENDHLSL
 		}
 	}
 }
