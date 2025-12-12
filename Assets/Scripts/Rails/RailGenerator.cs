@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine.Splines;
+using System.Collections.Generic;
 
 public class RailGenerator : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class RailGenerator : MonoBehaviour
 
 	void Start()
 	{
-		
+		SplineContainer first = GenerateSection(sections[0]).path;
+		player.GetComponentInChildren<PlayerMove>().AttachToRail(first);
 	}
 	
 	void Update()
@@ -57,7 +59,7 @@ public class RailGenerator : MonoBehaviour
 		return true;
 	}
 
-	void GenerateSection(GameObject selectedSection)
+	RailSection GenerateSection(GameObject selectedSection)
 	{
 		sectionCount++;
 
@@ -76,5 +78,7 @@ public class RailGenerator : MonoBehaviour
 		// update end of the path and instances[]
 		currentSection.GetPathEnd(out endPosition, out endRotation);
 		instances.Add(currentSection);
+		
+		return currentSection;
 	}
 }

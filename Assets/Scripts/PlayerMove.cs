@@ -6,7 +6,6 @@ using UnityEngine.Splines;
 public class PlayerMove : MonoBehaviour
 {
 	// ----- Public
-	public SplineContainer rail;
 	public float accelerationTime = 1f;
 	public float maxSpeed = .01f;
 	
@@ -29,13 +28,12 @@ public class PlayerMove : MonoBehaviour
 	private float2 moveInput = float2.zero;
 	private float velocity = 0;
 
+	private SplineContainer rail;
 	private float3 railPosition = float3.zero;
 	
-	void Start()
+	void Awake()
 	{
-		AttachToRail(rail);
 		rb = GetComponent<Rigidbody>();
-		
 		sources = GetComponents<AudioSource>();
 	}
 	

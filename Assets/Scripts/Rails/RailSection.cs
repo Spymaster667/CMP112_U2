@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;
@@ -8,7 +9,7 @@ public class RailSection : MonoBehaviour
 	
 	// ----- Private
 	// References
-	private SplineContainer path;
+	[NonSerialized] public SplineContainer path;
 
 	void OnDrawGizmos()
 	{
