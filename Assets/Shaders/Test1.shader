@@ -15,7 +15,7 @@ Shader "Unlit/URPTest1"
 			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "UnityCG.cginc"
 
 			struct Attributes
 			{
@@ -29,15 +29,15 @@ Shader "Unlit/URPTest1"
 				float2 uv : TEXCOORD0;
 			};
 
-			TEXTURE2D(_MainTex);
-			SAMPLER(sampler_MainTex);
+			// Uniforms
+			sampler2D _MainTex;
 
 			float2 _ScrollSpeed;
 
 			Varyings vert(Attributes IN)
 			{
 				Varyings OUT;
-				OUT.positionHCS = TransformObjectToHClip(IN.positionOS);
+				OUT.positionHCS = mul(UNITY_MATRIX_MVP, IN.positionOS);
 				OUT.uv = IN.uv;
 				return OUT;
 			}
@@ -45,7 +45,7 @@ Shader "Unlit/URPTest1"
 			half4 frag(Varyings IN) : SV_Target
 			{
 				float2 scrolledUV = IN.uv - _Time.x * _ScrollSpeed;
-				return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, scrolledUV);
+				return tex2D(_MainTex, scrolledUV);
 			}
 			
 			ENDHLSL
