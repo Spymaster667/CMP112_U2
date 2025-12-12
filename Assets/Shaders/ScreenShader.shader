@@ -40,12 +40,6 @@ Shader "UI/ScreenShader"
 			#pragma fragment frag
 			#include <UnityCG.cginc>
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
 			// Uniforms
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
