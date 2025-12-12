@@ -4,8 +4,10 @@ Shader "UI/ScreenShader"
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		[NoScaleOffset] ditherPattern ("Dither Pattern", 2D) = "white" {}
-		ditherIntensity ("Dither Intensity", Float) = .5
-		colourDepth ("Colour Depth", Integer) = 4
+		ditherIntensity ("Dither Intensity", Float) = .75
+		colourDepth ("Colour Depth", Integer) = 24
+		colourSlope ("Colour Slope", Float) = 1
+		
 	}
 	SubShader
 	{
@@ -14,23 +16,6 @@ Shader "UI/ScreenShader"
 		Lighting Off
 		ZWrite Off
 		ZTest Always
-
-		Pass
-		{
-			Name "Fog"
-		HLSLPROGRAM
-			#pragma vertex vert_img
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-			
-			sampler2D _MainTex;
-			
-			half4 frag(v2f_img i)
-			{
-				return tex2D(_MainTex, i.uv);
-			}
-		ENDHLSL
-		}
 
 		Pass
 		{
@@ -49,6 +34,7 @@ Shader "UI/ScreenShader"
 
 			float ditherIntensity;
 			int colourDepth;
+			float colourSlope;
 
 			half4 frag(v2f_img i) : SV_Target
 			{
@@ -58,14 +44,41 @@ Shader "UI/ScreenShader"
 				float2 ditherUV = i.uv * (_MainTex_TexelSize.zw / ditherPattern_TexelSize.zw);
 
 				float ditherValue = tex2D(ditherPattern, ditherUV).r;
-				ditherValue *= ditherIntensity / 10;
+				ditherValue = ditherValue*2-1; // normalize
+				ditherValue *= ditherIntensity / colourDepth;
 
 				// Quantization
-				col = round((col + ditherValue) * colourDepth) / colourDepth;
+				col = pow(col, 1 / colourSlope);
+				col = floor((col + ditherValue) * (colourDepth-1)) / (colourDepth-1);
+				col = pow(col, colourSlope);
+
+				// Desmos visualization:
+				// \left(\frac{\operatorname{round}\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
+				// \left(\frac{\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
 
 				return half4(col, 1);
 			}
 		ENDHLSL
 		}
+
+		/*Pass
+		{
+			Name "Fog"
+		HLSLPROGRAM
+			#pragma vertex vert_img
+			#pragma fragment frag
+			#include "UnityCG.cginc"
+			
+			sampler2D _MainTex;
+			sampler2D _CameraDepthTexture;
+			
+			half4 frag(v2f_img i) : SV_Target
+			{
+				return tex2D(_MainTex, i.uv) * half4(.5,.5,1,1);
+				half3 col = tex2D(_CameraDepthTexture, i.uv).r;
+				return half4(col, 1);
+			}
+		ENDHLSL
+		}*/
 	}
 }

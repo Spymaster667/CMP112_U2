@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.UI;
@@ -9,6 +8,8 @@ public class ScreenSetup : MonoBehaviour
 	public float2 aspectRatio = new float2(1.2f, 1f);
 	public int pixelSize = 2;
 	public GameObject screenObject;
+
+	public bool useTestCard = false;
 
 	// ----- Private
 	// References
@@ -32,8 +33,13 @@ public class ScreenSetup : MonoBehaviour
 		RefreshScreen();
 		
 		// Assign Texture
+		cam.depthTextureMode = DepthTextureMode.Depth;
+		
 		cam.targetTexture = texture;
-		image.texture = texture;
+		if (!useTestCard)
+		{
+			image.texture = texture;
+		}
 	}
 	
 	void RefreshScreen()
@@ -48,6 +54,7 @@ public class ScreenSetup : MonoBehaviour
 		{
 			filterMode = FilterMode.Point
 		};
+		
 		
 		rect.sizeDelta = math.floor(screenMin * scaledRatio);
 	}
