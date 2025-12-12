@@ -6,7 +6,7 @@ Shader "UI/ScreenShader"
 		[NoScaleOffset] ditherPattern ("Dither Pattern", 2D) = "white" {}
 		ditherIntensity ("Dither Intensity", Float) = .75
 		colourDepth ("Colour Depth", Integer) = 24
-		colourSlope ("Colour Slope", Float) = 1
+		colourSlope ("Colour Slope", Float) = 1 // Less important with a high colour depth
 		
 	}
 	SubShader
@@ -42,8 +42,8 @@ Shader "UI/ScreenShader"
 
 				// Sample DitherPattern
 				float2 ditherUV = i.uv * (_MainTex_TexelSize.zw / ditherPattern_TexelSize.zw);
-
 				float ditherValue = tex2D(ditherPattern, ditherUV).r;
+				
 				ditherValue = ditherValue*2-1; // normalize
 				ditherValue *= ditherIntensity / colourDepth;
 
