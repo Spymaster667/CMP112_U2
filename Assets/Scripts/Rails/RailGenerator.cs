@@ -26,7 +26,7 @@ public class RailGenerator : MonoBehaviour
 
 	void Start()
 	{
-		SplineContainer first = GenerateSection(sections[0]).path;
+		SplineContainer first = GenerateSection(sections[0]).container;
 		player.GetComponentInChildren<PlayerMove>().AttachToRail(first);
 	}
 	
