@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.InputSystem;
@@ -71,6 +72,7 @@ public class PlayerMove : MonoBehaviour
 		moveInput = context.ReadValue<Vector2>();
 	}
 	
+	// ReSharper disable once MemberCanBePrivate.Global
 	public void AttachToRail(SplineContainer container)
 	{
 		rail = container;
