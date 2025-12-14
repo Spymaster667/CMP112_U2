@@ -352,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 1193826015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -520,10 +520,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sections:
+  - {fileID: 2068101238527428243, guid: f581f4eb231ac8e4ea6228a42607a4d5, type: 3}
   - {fileID: 2068101238527428243, guid: ce4d529fae7009d479e9134e92e506a0, type: 3}
   - {fileID: 2068101238527428243, guid: bc8ef5abe2fa43f4db6fc5015e2fe319, type: 3}
   player: {fileID: 1880975991}
-  maxSections: 10
+  maxSections: 4
   maxDistance: 100
 --- !u!4 &1821995603
 Transform:
@@ -698,6 +699,7 @@ MonoBehaviour:
   carriageDecel: {fileID: 8300000, guid: 69600db25c270944c8ededf4543c23fa, type: 3}
   carriageStop: {fileID: 0}
   droneToDecelFade: 0.1
+  tester: 1
 --- !u!82 &1880975998
 AudioSource:
   m_ObjectHideFlags: 0

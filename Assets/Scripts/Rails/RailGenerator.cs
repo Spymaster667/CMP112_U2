@@ -20,13 +20,12 @@ public class RailGenerator : MonoBehaviour
 	// Varyings
 	private float3 endPosition = float3.zero;
 	private Quaternion endRotation = Quaternion.identity;
-
-	private uint sectionCount = 0;
+	
 	private List<RailSection> instances = new List<RailSection>();
 
 	void Start()
 	{
-		SplineContainer first = GenerateSection(sections[0]).container;
+		RailSection first = GenerateSection(sections[0]);
 		player.GetComponentInChildren<PlayerMove>().AttachToRail(first);
 	}
 	
@@ -42,7 +41,7 @@ public class RailGenerator : MonoBehaviour
 	{
 		if (maxSections >= 0)
 		{
-			if (sectionCount >= maxSections)
+			if (instances.Count >= maxSections)
 			{
 				return false;
 			}
@@ -59,10 +58,9 @@ public class RailGenerator : MonoBehaviour
 		return true;
 	}
 
+	
 	RailSection GenerateSection(GameObject selectedSection)
 	{
-		sectionCount++;
-
 		// instance section
 		RailSection currentSection =
 			Instantiate(selectedSection, float3.zero, Quaternion.identity)
@@ -74,7 +72,14 @@ public class RailGenerator : MonoBehaviour
 		currentSection.transform.position = endPosition - startPosition;
 		
 		currentSection.transform.rotation = endRotation * startRotation;
-
+		
+		// Assign next and previous
+		if (instances.Count > 0)
+		{
+			currentSection.previous = instances[^1];
+			instances[^1].next = currentSection;
+		}
+		
 		// update end of the path and instances[]
 		currentSection.GetPathEnd(out endPosition, out endRotation);
 		instances.Add(currentSection);

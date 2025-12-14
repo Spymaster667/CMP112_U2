@@ -10,6 +10,8 @@ public class RailSection : MonoBehaviour
 	// ----- Private
 	// References
 	[NonSerialized] public SplineContainer container;
+	public RailSection next;
+	public RailSection previous;
 	
 
 	void OnDrawGizmos()
