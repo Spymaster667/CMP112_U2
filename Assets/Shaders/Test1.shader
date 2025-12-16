@@ -1,4 +1,4 @@
-Shader "Unlit/URPTest1"
+Shader "Custom/URPTest1"
 {
 	Properties
 	{
@@ -8,8 +8,7 @@ Shader "Unlit/URPTest1"
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" "Queue"="Geometry"}
-		ZWrite On
-		Cull Back
+		LOD 200
 
 		Pass
 		{

@@ -1,4 +1,4 @@
-Shader "UI/ScreenShader"
+Shader "Custom/ScreenShader"
 {
 	Properties
 	{
@@ -79,6 +79,7 @@ Shader "UI/ScreenShader"
 				// Apply depth
 				depth = clamp(depth, 0., 1.);
 				col = lerp(col, fogCol, depth);
+				return depth;
 
 				// ---------
 				// Dithering
