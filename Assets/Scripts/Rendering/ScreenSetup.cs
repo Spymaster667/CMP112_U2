@@ -45,7 +45,6 @@ public class ScreenSetup : MonoBehaviour
 		cam.targetTexture = texture;
 		
 		image.texture = texture;
-		print("1");
 	}
 	
 	void RefreshScreen()
