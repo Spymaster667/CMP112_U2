@@ -1,6 +1,8 @@
 using UnityEngine;
 using Unity.Mathematics;
 using Unity.Mathematics.Geometry;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 
@@ -12,11 +14,11 @@ public class ScreenSetup : MonoBehaviour
 	public int pixelSize = 2;
 
 	public Material screenShader;
+	public RawImage image;
 
 	// ----- Private
 	// References
 	private Camera cam;
-	private RawImage image;
 
 	// Varyings
 	private RenderTexture texture;
@@ -24,7 +26,14 @@ public class ScreenSetup : MonoBehaviour
 	void Awake()
 	{
 		cam = GetComponent<Camera>();
-		image = GetComponentInChildren<RawImage>();
+		if (!image)
+		{
+			image = GetComponentInChildren<RawImage>();
+		}
+		if (!image)
+		{
+			throw new UnityException("No RawImage attached");
+		}
 	}
 
 	void Start()
