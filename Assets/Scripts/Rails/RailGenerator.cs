@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.Splines;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 public class RailGenerator : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class RailGenerator : MonoBehaviour
 		}
 	}
 
+	[SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
 	private bool ShouldGenerate()
 	{
 		if (maxSections >= 0)

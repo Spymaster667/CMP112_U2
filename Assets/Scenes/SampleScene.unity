@@ -699,6 +699,7 @@ MonoBehaviour:
   carriageDecel: {fileID: 8300000, guid: 69600db25c270944c8ededf4543c23fa, type: 3}
   carriageStop: {fileID: 0}
   droneToDecelFade: 0.1
+  rail: {fileID: 0}
   tester: 1
 --- !u!82 &1880975998
 AudioSource:

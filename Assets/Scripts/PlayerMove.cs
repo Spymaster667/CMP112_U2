@@ -31,7 +31,6 @@ public class PlayerMove : MonoBehaviour
 	private float velocity = 0;
 
 	public RailSection rail;
-	private float3 railPosition = float3.zero;
 	
 	void Awake()
 	{
@@ -57,24 +56,23 @@ public class PlayerMove : MonoBehaviour
 		velocity = Mathf.Clamp(velocity, -maxSpeed, maxSpeed);
 		
 		// Get rail info
-		SplineUtility.GetNearestPoint(rail.container.Spline, transform.position, out float3 nearestPos, out float nearestT);
+		float3 localPos = rail.transform.InverseTransformPoint(transform.position);
+		SplineUtility.GetNearestPoint(rail.container.Spline, localPos, out float3 nearestPos, out float nearestT);
+		print("localPos: " + localPos + " | nearestPos: " + nearestPos);
+		nearestPos = transform.TransformPoint(nearestPos);
+		print("nearestPos TransformPoint: " + nearestPos);
 		float3 railDirection = Vector3.Normalize(rail.container.Spline.EvaluateTangent(nearestT));
-		nearestPos += railPosition;
-		print("nearestT: " + nearestT + " | railPosition: " + railPosition + " | nearestPos: " + nearestPos);
-		
-		// Apply movement
-		rb.MovePosition(nearestPos + (railDirection * velocity));
 		
 		// Switch rails
-		if (nearestT >= .95 - float.Epsilon)
+		if (nearestT >= .97 - float.Epsilon)
 		{
-			print("through");
+			//print("through");
 			if (rail.next)
 			{
-				print("it happened " + rail.next.transform.position);
+				//print("it happened " + rail.next.transform.position);
 				if (tester)
 				{
-					print("tester passed");
+					//print("tester passed");
 					AttachToRail(rail.next);
 					tester = false;
 				}
@@ -84,10 +82,13 @@ public class PlayerMove : MonoBehaviour
 		{
 			if (rail.previous)
 			{
-				print("bounce");
+				//print("bounce");
 				AttachToRail(rail.previous);
 			}
 		}
+		
+		// Apply movement
+		rb.MovePosition(nearestPos + (railDirection * velocity));
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
@@ -99,7 +100,8 @@ public class PlayerMove : MonoBehaviour
 	{
 		print("Attaching!!");
 		rail = section;
-		railPosition = section.transform.position;
-		print("Attached to: " + rail + " | at: " + railPosition);
+		//print("Attached==to: " + rail + " | at: " + railPosition);
+		//.GetNearestPoint(rail.container.Spline, transform.position, out float3 nearestPos, out float nearestT);
+		//print("Attached==NearestPos: " + nearestPos + " | nearestT: " + nearestT);
 	}
 }
