@@ -2,20 +2,19 @@ using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class ScreenSetup : MonoBehaviour
 {
 	// ----- Public
 	public float2 aspectRatio = new float2(1.2f, 1f);
 	public int pixelSize = 2;
-	public GameObject screenObject;
 
-	public bool useTestCard = false;
+	public Material screenShader;
 
 	// ----- Private
 	// References
-	private RawImage image;
-	private RectTransform rect;
 	private Camera cam;
+	private RawImage image;
 
 	// Varyings
 	private RenderTexture texture;
@@ -23,9 +22,7 @@ public class ScreenSetup : MonoBehaviour
 	void Awake()
 	{
 		cam = GetComponent<Camera>();
-		
-		image = screenObject.GetComponent<RawImage>();
-		rect = screenObject.GetComponent<RectTransform>();
+		image = GetComponentInChildren<RawImage>();
 	}
 
 	void Start()
@@ -33,13 +30,10 @@ public class ScreenSetup : MonoBehaviour
 		RefreshScreen();
 		
 		// Assign Texture
-		cam.depthTextureMode = DepthTextureMode.Depth;
-		
+		cam.depthTextureMode |= DepthTextureMode.Depth;
 		cam.targetTexture = texture;
-		if (!useTestCard)
-		{
-			image.texture = texture;
-		}
+		
+		image.texture = texture;
 	}
 	
 	void RefreshScreen()
@@ -55,7 +49,15 @@ public class ScreenSetup : MonoBehaviour
 			filterMode = FilterMode.Point
 		};
 		
-		
-		rect.sizeDelta = math.floor(screenMin * scaledRatio);
+		// Scale raw image
+		image.rectTransform.sizeDelta = screenMin * scaledRatio;
+	}
+
+	void OnRenderImage(RenderTexture src, RenderTexture dest)
+	{
+		RenderTexture downScaler = RenderTexture.GetTemporary(texture.width, texture.height, 24);
+		Graphics.Blit(src, downScaler);
+		Graphics.Blit(downScaler, dest, screenShader);
+		downScaler.Release();
 	}
 }
