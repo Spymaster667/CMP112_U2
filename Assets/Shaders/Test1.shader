@@ -3,16 +3,17 @@ Shader "Unlit/URPTest1"
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_ScrollSpeed ("Scroll Speed (vec2)", Vector) = (0,0,0)
+		_ScrollSpeed ("Scroll Speed (vec2)", Vector) = (1,0,0)
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
-		LOD 100
+		Tags { "RenderType"="Opaque" "Queue"="Geometry"}
+		ZWrite On
+		Cull Back
 
 		Pass
 		{
-			HLSLPROGRAM
+		HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#include "UnityCG.cginc"
@@ -31,7 +32,6 @@ Shader "Unlit/URPTest1"
 
 			// Uniforms
 			sampler2D _MainTex;
-
 			float2 _ScrollSpeed;
 
 			Varyings vert(Attributes IN)
@@ -47,8 +47,7 @@ Shader "Unlit/URPTest1"
 				float2 scrolledUV = IN.uv - _Time.x * _ScrollSpeed;
 				return tex2D(_MainTex, scrolledUV);
 			}
-			
-			ENDHLSL
+		ENDHLSL
 		}
 	}
 }

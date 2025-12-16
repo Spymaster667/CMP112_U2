@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Mathematics;
 using Unity.Mathematics.Geometry;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -35,6 +36,7 @@ public class ScreenSetup : MonoBehaviour
 		cam.targetTexture = texture;
 		
 		image.texture = texture;
+		print("1");
 	}
 	
 	void RefreshScreen()
@@ -47,8 +49,10 @@ public class ScreenSetup : MonoBehaviour
 		// Apply Scale
 		texture = new RenderTexture(textureResolution.x, textureResolution.y, 24)
 		{
-			filterMode = FilterMode.Point
+			filterMode = FilterMode.Point,
+			depthStencilFormat = GraphicsFormat.D32_SFloat_S8_UInt
 		};
+		texture.Create();
 		
 		image.rectTransform.sizeDelta = new float2(textureResolution * pixelSize);
 	}
