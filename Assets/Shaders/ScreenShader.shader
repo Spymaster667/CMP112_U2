@@ -58,7 +58,8 @@ Shader "UI/ScreenShader"
 				// \left(\frac{\operatorname{round}\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
 				// \left(\frac{\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
 
-				col = tex2D(_CameraDepthTexture, i.uv);
+				//col = tex2D(_CameraDepthTexture, i.uv);
+				//col = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.pos);
 
 				return half4(col, 1);
 			}

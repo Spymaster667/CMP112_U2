@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Mathematics;
+using Unity.Mathematics.Geometry;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -49,15 +50,11 @@ public class ScreenSetup : MonoBehaviour
 			filterMode = FilterMode.Point
 		};
 		
-		// Scale raw image
-		image.rectTransform.sizeDelta = screenMin * scaledRatio;
+		image.rectTransform.sizeDelta = new float2(textureResolution * pixelSize);
 	}
 
 	void OnRenderImage(RenderTexture src, RenderTexture dest)
 	{
-		RenderTexture downScaler = RenderTexture.GetTemporary(texture.width, texture.height, 24);
-		Graphics.Blit(src, downScaler);
-		Graphics.Blit(downScaler, dest, screenShader);
-		downScaler.Release();
+		Graphics.Blit(src, dest, screenShader);
 	}
 }
