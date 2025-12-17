@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ScreenShader
+  m_Name: Dithering
   m_Shader: {fileID: 4800000, guid: 7b1339a8fb03f56439e5688208a8e5f2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

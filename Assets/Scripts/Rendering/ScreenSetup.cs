@@ -13,7 +13,8 @@ public class ScreenSetup : MonoBehaviour
 	public float2 aspectRatio = new float2(1.2f, 1f);
 	public int pixelSize = 2;
 
-	public Material screenShader;
+	public Material overlayMaterial;
+	public Material worldMaterial;
 	public RawImage image;
 
 	// ----- Private
@@ -67,6 +68,8 @@ public class ScreenSetup : MonoBehaviour
 
 	void OnRenderImage(RenderTexture src, RenderTexture dest)
 	{
-		Graphics.Blit(src, dest, screenShader);
+		RenderTexture temp = RenderTexture.GetTemporary(texture.width, texture.height, 24);
+		Graphics.Blit(src, temp, worldMaterial);
+		Graphics.Blit(temp, dest, overlayMaterial);
 	}
 }
