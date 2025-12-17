@@ -40,7 +40,8 @@ Shader "Custom/Dithering"
 			half4 frag(v2f_img i) : SV_Target
 			{
 				// Sample
-				half3 col = tex2D(_MainTex, i.uv).rgb;
+				half4 samp = tex2D(_MainTex, i.uv);
+				half3 col = samp.rgb;
 				
 				// Sample DitherPattern
 				float2 ditherUV = i.uv * (_MainTex_TexelSize.zw / ditherPattern_TexelSize.zw);
@@ -58,7 +59,7 @@ Shader "Custom/Dithering"
 				// \left(\frac{\operatorname{round}\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
 				// \left(\frac{\left(x^{\frac{1}{s}}d\right)}{d}\right)^{s}
 
-				return half4(col, 1);
+				return half4(col, samp.a);
 			}
 		ENDHLSL
 		}

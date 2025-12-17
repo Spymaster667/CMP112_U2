@@ -59,7 +59,8 @@ public class ScreenSetup : MonoBehaviour
 		texture = new RenderTexture(textureResolution.x, textureResolution.y, 24)
 		{
 			filterMode = FilterMode.Point,
-			depthStencilFormat = GraphicsFormat.D32_SFloat_S8_UInt
+			depthStencilFormat = GraphicsFormat.D32_SFloat_S8_UInt,
+			format = RenderTextureFormat.ARGBHalf
 		};
 		texture.Create();
 		
@@ -71,5 +72,6 @@ public class ScreenSetup : MonoBehaviour
 		RenderTexture temp = RenderTexture.GetTemporary(texture.width, texture.height, 24);
 		Graphics.Blit(src, temp, worldMaterial);
 		Graphics.Blit(temp, dest, overlayMaterial);
+		temp.Release();
 	}
 }

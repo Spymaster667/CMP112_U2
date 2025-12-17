@@ -12,7 +12,6 @@ public class Menu_Glitch1 : MonoBehaviour
 
 	// ----- Private
 	// References
-	private RectTransform rect;
 	private RawImage image;
 	
 	// Varyings
@@ -20,13 +19,7 @@ public class Menu_Glitch1 : MonoBehaviour
 
 	void Awake()
 	{
-		rect = GetComponent<RectTransform>();
 		image = GetComponent<RawImage>();
-	}
-
-	void Start()
-	{
-		rect.sizeDelta = new Vector2(Screen.width, Screen.height);
 	}
 
 	void Update()
